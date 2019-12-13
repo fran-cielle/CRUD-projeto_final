@@ -3,8 +3,8 @@ const router = express.Router();
 const controller = require("../controllers/VoluntariosController")
 
 
-// router.get('',controller)
-// router.post('', controller.)
+router.get('',controller.getAll)
+router.post ('', controller.add)
 // router.patch('/:id', controller)
 // router.delete('/:id', controller)
 
