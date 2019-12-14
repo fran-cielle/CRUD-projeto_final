@@ -5,7 +5,8 @@ const alunosSchema = new Schema({
   nome: { type: String, required: true },
   materia: { type: String, required: true },
   dificuldade: [{type: Number,min: 0, max: 10, require: true}],
-  qtdAulas: {type: Number}
+  qtdAulas: {type: Number},
+  grupo: { type: String, required: true }
 })
 
 const alunosModel = mongoose.model('alunos', alunosSchema);
