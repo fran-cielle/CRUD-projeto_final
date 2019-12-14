@@ -1,7 +1,7 @@
 const { connect } = require('../models/Repository')
 const voluntariosModel = require('../models/VoluntariosSchema')
+const { alunosModel } = require('../models/alunosSchema')
 const bcrypt = require('bcryptjs')
-//const { alunosModel } = require('../models/alunosSchema')
 
 connect()
 
@@ -67,11 +67,29 @@ const remove = (request, response) => {
     return response.status(404).send('Voluntário não encontrado.')
   })
 }
+const addAluno = async (request, response) => {
+  const voluntarioId = request.params.voluntarioId
+  const aluno = request.body
+  const options = { new: true }
+  const novoAluno = new alunosModel(aluno)
+  const treinador = await voluntariosModel.findById(voluntarioId)
+
+  treinador.alunos.push(novoAluno)
+  treinador.save((error) => {
+    if (error) {
+      return response.status(500).send(error)
+    }
+
+    return response.status(201).send(treinador)
+  })
+}
+
 
 
 module.exports = {
   getAll,
   add,
   alterar,
-  remove
+  remove,
+  addAluno
 }

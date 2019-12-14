@@ -7,6 +7,6 @@ router.get('',controller.getAll)
 router.post ('', controller.add)
 router.patch('/:id', controller.alterar)
 router.delete('/:id', controller.remove)
-
+router.post('/:voluntarioId/aluno', controller.addAluno)
 
 module.exports = router
