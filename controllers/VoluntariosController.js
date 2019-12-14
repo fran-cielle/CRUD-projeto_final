@@ -30,8 +30,32 @@ const add = (request, response) => {
     return response.status(201).send(novoVoluntario)
   })
 }
+const alterar = (request, response) => {
+  const id = request.params.id
+  const alunoUpdate = request.body
+  const options = { new: true }
+
+  voluntariosModel.findByIdAndUpdate(
+    id,
+    alunoUpdate,
+    options,
+    (error, aluno) => {
+      if (error) {
+        return response.status(500).send(error)
+      }
+
+      if (aluno) {
+        return response.status(200).send(aluno)
+      }
+
+      return response.status(404).send('Aluno não encontrado.')
+    }
+  )
+}
+
 
 module.exports = {
   getAll,
-  add
+  add,
+  alterar
 }
