@@ -52,10 +52,26 @@ const alterar = (request, response) => {
     }
   )
 }
+const remove = (request, response) => {
+  const id = request.params.id
+
+  voluntariosModel.findByIdAndDelete(id, (error, voluntario) => {
+    if (error) {
+      return response.status(500).send(error)
+    }
+
+    if (voluntario) {
+      return response.status(200).send(id)
+    }
+
+    return response.status(404).send('Voluntário não encontrado.')
+  })
+}
 
 
 module.exports = {
   getAll,
   add,
-  alterar
+  alterar,
+  remove
 }
