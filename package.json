@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/fran-cielle/CRUD-projeto_final.git"
+    "url": "git+https://github.com/francielle-nascimento/CRUD-projeto_final.git"
   },
   "author": "Francielle M. N. Silva",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/fran-cielle/CRUD-projeto_final/issues"
+    "url": "https://github.com/francielle-nascimento/CRUD-projeto_final/issues"
   },
-  "homepage": "https://github.com/fran-cielle/CRUD-projeto_final#readme",
+  "homepage": "https://github.com/francielle-nascimento/CRUD-projeto_final#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body": "^5.1.0",
