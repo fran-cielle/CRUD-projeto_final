@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-//const { alunosSchema } = require('./alunosSchema')
+const { alunosSchema } = require('./alunosSchema')
 const Schema = mongoose.Schema;
 const VoluntariosSchema = new Schema({
   _id: { type: mongoose.Schema.Types.ObjectId, auto: true, required: true },
@@ -7,7 +7,7 @@ const VoluntariosSchema = new Schema({
   email: { type: String, required: true },
   foto: { type: String, required: true },
   materia: { type: String, required: true },
-  //alunos: [alunosSchema],
+  alunos: [alunosSchema],
   senha: { type: String, required: true },
   grupo: { type: String }
 })
