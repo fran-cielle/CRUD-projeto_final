@@ -3,7 +3,34 @@ const voluntariosModel = require('../models/VoluntariosSchema')
 const { alunosModel } = require('../models/alunosSchema')
 const bcrypt = require('bcryptjs')
 
+//const jwt = require('jsonwebtoken')
+
 connect()
+
+// const login = async (request, response) => {
+//   const voluntarioEncontrado = await voluntariosModel.findOne({ email: request.body.email })
+
+//   if (voluntarioEncontrado) {
+//     const senhaCorreta = bcrypt.compareSync(request.body.senha, voluntarioEncontrado.senha)
+
+//     if (senhaCorreta) {
+//       const token = jwt.sign(
+//         {
+//           grupo: voluntarioEncontrado.grupo
+//         },
+//         SEGREDO,
+//         { expiresIn: 6000 }
+//       )
+
+//       return response.status(200).send({ token })
+//     }
+
+//     return response.status(401).send('Senha incorreta.')
+//   }
+
+//   return response.status(404).send('Voluntario não encontrado.')
+// }
+
 
 const getAll = (request, response) => {
   voluntariosModel.find((error, voluntarios) => {
@@ -14,6 +41,23 @@ const getAll = (request, response) => {
     return response.status(200).send(voluntarios)
   })
 }
+
+const getById = (request, response) => {
+  const id = request.params.id
+
+  return voluntariosModel.findById(id, (error, voluntario) => {
+    if (error) {
+      return response.status(500).send(error)
+    }
+
+    if (voluntario) {
+      return response.status(200).send(voluntario)
+    }
+
+    return response.status(404).send('Voluntario não encontrado.')
+  })
+}
+
 
 //ADD UM NOVO VOLUNTARIO, ROTA voluntarios post
 const add = (request, response) => {
@@ -88,8 +132,10 @@ const addAluno = async (request, response) => {
 
 module.exports = {
   getAll,
+  getById,
   add,
   alterar,
   remove,
-  addAluno
+  addAluno,
+  //login
 }
