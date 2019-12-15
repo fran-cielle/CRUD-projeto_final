@@ -65,9 +65,11 @@ router.get('',controller.getAll)
 router.post ('', controller.add)
 router.get('/:id', controller.getById)
 router.get('/:id/aluno', controller.getAlunos)
+router.get('/:voluntarioId/aluno/:alunoId', controller.getAlunoById)
 router.patch('/:id', controller.alterar)
 router.patch('/:voluntarioId/aluno/:alunoId', controller.atualizarAluno)
 router.delete('/:id', controller.remove)
 router.post('/:voluntarioId/aluno', controller.addAluno)
+
 
 module.exports = router

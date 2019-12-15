@@ -1,6 +1,8 @@
 const { connect } = require('../models/Repository')
 const voluntariosModel = require('../models/VoluntariosSchema')
 const { alunosModel } = require('../models/alunosSchema')
+
+
 const bcrypt = require('bcryptjs')
 
 //const jwt = require('jsonwebtoken')
@@ -71,6 +73,16 @@ const getAlunos = async (request, response) => {
     return response.status(404).send('Voluntario não encontrado.')
   })
 }
+
+const getAlunoById = async (request, response) => {
+  const voluntarioId = request.params.voluntarioId
+  const alunoId = request.params.alunoId
+  const voluntario = await voluntariosModel.findById(voluntarioId)
+  const aluno = voluntario.alunos.find(voluntario => voluntario._id == alunoId)
+
+  return response.status(200).send(aluno)
+}
+
 
 //POST
 //ADD UM NOVO VOLUNTARIO, ROTA voluntarios post
@@ -183,6 +195,7 @@ module.exports = {
   getAll,
   getById,
   getAlunos,
+  getAlunoById,
   add,
   addAluno,
   alterar,
