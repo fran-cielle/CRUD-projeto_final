@@ -58,6 +58,20 @@ const getById = (request, response) => {
   })
 }
 
+const getAlunos = async (request, response) => {
+  const voluntarioId = request.params.id
+  await voluntariosModel.findById(voluntarioId, (error, voluntario) => {
+    if (error) {
+      return response.status(500).send(error)
+    }
+    if (voluntario) {
+      return response.status(200).send(voluntario.alunos)
+    }
+
+    return response.status(404).send('Voluntario não encontrado.')
+  })
+}
+
 //POST
 //ADD UM NOVO VOLUNTARIO, ROTA voluntarios post
 const add = (request, response) => {
@@ -168,6 +182,7 @@ const remove = (request, response) => {
 module.exports = {
   getAll,
   getById,
+  getAlunos,
   add,
   addAluno,
   alterar,
