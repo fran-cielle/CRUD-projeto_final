@@ -103,15 +103,15 @@ const addAluno = async (request, response) => {
   const aluno = request.body
   const options = { new: true }
   const novoAluno = new alunosModel(aluno)
-  const treinador = await voluntariosModel.findById(voluntarioId)
+  const voluntario = await voluntariosModel.findById(voluntarioId)
 
-  treinador.alunos.push(novoAluno)
-  treinador.save((error) => {
+  voluntario.alunos.push(novoAluno)
+  voluntario.save((error) => {
     if (error) {
       return response.status(500).send(error)
     }
 
-    return response.status(201).send(treinador)
+    return response.status(201).send(voluntario)
   })
 }
 
@@ -150,8 +150,7 @@ const atualizarAluno = (request, response) => {
       $set: {
         'alunos.$.nome': request.body.nome,
         'alunos.$.materia': request.body.materia,
-        'alunos.$.dificuldade': request.body.dificuldade,
-        'alunos.$.qtdAulas': request.body.qtdAulas
+        'alunos.$.dificuldade': request.body.dificuldade
       }
     },
     options,
@@ -168,6 +167,31 @@ const atualizarAluno = (request, response) => {
     }
   )
 }
+
+const atualizarAula = (request, response) => {
+  const voluntarioId = request.params.voluntarioId
+  const alunoId = request.params.alunoId
+  const options = { new: true }
+  //const Dificulade = request.body.dificuldade
+  const data = request.body.dataAulas
+
+  voluntariosModel.findOneAndUpdate(
+    
+    (error, voluntario) => {
+      if (error) {
+        return response.status(500).send(error)
+      }
+
+      if (voluntario) {
+        return response.status(200).send(voluntario)
+      }
+
+      return response.status(404).send('Voluntário não encontrado.')
+    }
+  )
+}
+
+
 
 //DELETE
 const remove = (request, response) => {
@@ -197,6 +221,7 @@ module.exports = {
   addAluno,
   alterar,
   atualizarAluno,
+  atualizarAula,
   remove,
   login
 }
