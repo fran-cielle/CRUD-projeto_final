@@ -1,38 +1,35 @@
 const { connect } = require('../models/Repository')
 const voluntariosModel = require('../models/VoluntariosSchema')
 const { alunosModel } = require('../models/alunosSchema')
-
-
 const bcrypt = require('bcryptjs')
-
-//const jwt = require('jsonwebtoken')
-
+const jwt = require('jsonwebtoken')
+require('dotenv').load
+const SEGREDO = process.env.SEGREDO
 connect()
 
-// const login = async (request, response) => {
-//   const voluntarioEncontrado = await voluntariosModel.findOne({ email: request.body.email })
+const login = async (request, response) => {
+  const voluntarioEncontrado = await voluntariosModel.findOne({ email: request.body.email })
 
-//   if (voluntarioEncontrado) {
-//     const senhaCorreta = bcrypt.compareSync(request.body.senha, voluntarioEncontrado.senha)
+  if (voluntarioEncontrado) {
+    const senhaCorreta = bcrypt.compareSync(request.body.senha, voluntarioEncontrado.senha)
 
-//     if (senhaCorreta) {
-//       const token = jwt.sign(
-//         {
-//           grupo: voluntarioEncontrado.grupo
-//         },
-//         SEGREDO,
-//         { expiresIn: 6000 }
-//       )
+    if (senhaCorreta) {
+      const token = jwt.sign(
+        {
+          grupo: voluntarioEncontrado.grupo
+        },
+        SEGREDO,
+        { expiresIn: 6000 }
+      )
 
-//       return response.status(200).send({ token })
-//     }
+      return response.status(200).send({ token })
+    }
 
-//     return response.status(401).send('Senha incorreta.')
-//   }
+    return response.status(401).send('Senha incorreta.')
+  }
 
-//   return response.status(404).send('Voluntario não encontrado.')
-// }
-
+  return response.status(404).send('Treinador não encontrado.')
+}
 //GET
 const getAll = (request, response) => {
   voluntariosModel.find((error, voluntarios) => {
@@ -200,6 +197,6 @@ module.exports = {
   addAluno,
   alterar,
   atualizarAluno,
-  remove
-  //login
+  remove,
+  login
 }
