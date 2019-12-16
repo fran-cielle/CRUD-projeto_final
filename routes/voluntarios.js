@@ -1,36 +1,37 @@
 const express = require('express');
 const router = express.Router();
 const controller = require("../controllers/VoluntariosController")
-//const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken')
+const SEGREDO = process.env.SEGREDO
 
-// const autenticar = (request, response, next) => {
-//   const authHeader = request.get('authorization')
-//   let autenticado = false
+const autenticar = (request, response, next) => {
+  const authHeader = request.get('authorization')
+  let autenticado = false
 
-//   if (!authHeader) {
-//     return response.status(401).send('Você precisa fazer login!')
-//   }
+  if (!authHeader) {
+    return response.status(401).send('Você precisa fazer login!')
+  }
 
-//   const token = authHeader.split(' ')[1]
+  const token = authHeader.split(' ')[1]
 
-//   jwt.verify(token, SEGREDO, (error, decoded) => {
-//     if (error) {
-//       autenticado = false
-//     } else {
-//       if (decoded.grupo == 'voluntarios' || decoded.grupo == 'admin') {
-//         autenticado = true
-//       } else {
-//         autenticado = false
-//       }
-//     }
-//   })
+  jwt.verify(token, SEGREDO, (error, decoded) => {
+    if (error) {
+      autenticado = false
+    } else {
+      if (decoded.grupo == 'voluntarios' || decoded.grupo == 'admin') {
+        autenticado = true
+      } else {
+        autenticado = false
+      }
+    }
+  })
 
-//   if (!autenticado) {
-//     return response.status(403).send('Acesso negado.')
-//   }
+  if (!autenticado) {
+    return response.status(403).send('Acesso negado.')
+  }
 
-//   next()
-// }
+  next()
+}
 
 // const autenticarAdmin = (request, response, next) => {
 //   const authHeader = request.get('authorization')
@@ -61,7 +62,7 @@ const controller = require("../controllers/VoluntariosController")
 //   next()
 // }
 
-router.get('',controller.getAll)
+router.get('',autenticar,controller.getAll)
 router.post ('', controller.add)
 router.get('/:id', controller.getById)
 router.get('/:id/aluno', controller.getAlunos)
