@@ -5,8 +5,7 @@ const alunosSchema = new Schema({
   nome: { type: String, required: true },
   materia: { type: String, required: true },
   dificuldade: [{type: Number,min: 0, max: 10, require: true}],
-  qtdAulas: {type: Number},
-  dataAulas:[{type: Date, require: true}],
+  dataAulas:[{type: Date, require: false}],
   grupo: { type: String, required: true }
 })
 
