@@ -15,14 +15,16 @@ const autenticar = (request, response, next) => {
   const token = authHeader.split(' ')[1]
 
   jwt.verify(token, SEGREDO, (error, decoded) => {
+    console.log(error,decoded,'AQUI')
     if (error) {
       autenticado = false
     } else {
-      if (decoded.grupo == 'voluntarios' || decoded.grupo == 'admin') {
+      if (decoded.grupo == 'voluntario') {
         autenticado = true
       } else {
         autenticado = false
       }
+     
     }
   })
 
@@ -62,7 +64,7 @@ const autenticar = (request, response, next) => {
 //   next()
 // }
 
-router.get('',autenticar,controller.getAll)
+router.get('',autenticar, controller.getAll)
 router.post ('', controller.add)
 router.get('/:id', controller.getById)
 router.get('/:id/aluno', controller.getAlunos)
