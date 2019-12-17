@@ -28,7 +28,7 @@ const login = async (request, response) => {
     return response.status(401).send('Senha incorreta.')
   }
 
-  return response.status(404).send('Treinador não encontrado.')
+  return response.status(404).send('Voluntario não encontrado.')
 }
 //GET
 const getAll = (request, response) => {
@@ -168,27 +168,34 @@ const atualizarAluno = (request, response) => {
   )
 }
 
-const atualizarAula = (request, response) => {
+// const conversorData = (dataString) => {
+//   const dia = dataString.split("/")[0]
+//   const mes = dataString.split("/")[1] - 1
+//   const ano = dataString.split("/")[2]
+//   const dataFormatada = new Date(ano, mes, dia)
+//   return dataFormatada
+// }
+
+const atualizarAula = async (request, response) => {
   const voluntarioId = request.params.voluntarioId
   const alunoId = request.params.alunoId
   const options = { new: true }
-  //const Dificulade = request.body.dificuldade
+  const voluntario = await voluntariosModel.findById(voluntarioId)
+  const alunoEnc = voluntario.alunos.find((aluno) => alunoId == aluno._id)
   const data = request.body.dataAulas
 
-  voluntariosModel.findOneAndUpdate(
-    
-    (error, voluntario) => {
-      if (error) {
-        return response.status(500).send(error)
-      }
+  const novaData = new Date(data)
 
-      if (voluntario) {
-        return response.status(200).send(voluntario)
-      }
-
-      return response.status(404).send('Voluntário não encontrado.')
+  alunoEnc.dataAulas.push(novaData)
+ 
+  alunoEnc.save((error,aluno) => {
+    if (error) {
+      return response.status(500).send(error)
     }
-  )
+
+    return response.status(201).send(aluno)
+  })
+  
 }
 
 
