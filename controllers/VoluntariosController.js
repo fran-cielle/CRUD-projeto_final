@@ -187,7 +187,7 @@ const atualizarAula = async (request, response) => {
   const novaData = new Date(data)
 
   alunoEnc.dataAulas.push(novaData)
- 
+  
   alunoEnc.save((error,aluno) => {
     if (error) {
       return response.status(500).send(error)

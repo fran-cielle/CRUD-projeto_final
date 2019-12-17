@@ -19,7 +19,7 @@ const autenticar = (request, response, next) => {
     if (error) {
       autenticado = false
     } else {
-      if (decoded.grupo == 'voluntario') {
+      if (decoded.grupo == 'professor') {
         autenticado = true
       } else {
         autenticado = false
